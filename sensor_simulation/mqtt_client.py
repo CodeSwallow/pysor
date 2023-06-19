@@ -7,9 +7,13 @@ class MqttClient:
     """
 
     def __init__(self, broker_address: str) -> None:
-        self.broker_address = broker_address
+        """
+        Constructor of the class
+
+        :param broker_address: IP address of the broker
+        """
         self.client = mqtt.Client()
-        self.client.connect(self.broker_address)
+        self.client.connect(broker_address)
 
     def publish(self, topic: str, message: str) -> None:
         """
