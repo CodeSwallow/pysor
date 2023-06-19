@@ -36,5 +36,6 @@ class BaseSensor:
         """
         while True:
             data = self.generate_data()
+            print(f"Publishing data: {data}")
             self.mqtt_client.publish(self.topic, data)
             time.sleep(self.interval)
