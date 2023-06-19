@@ -1,3 +1,5 @@
+import random
+
 from sensor_simulation.mqtt_client import MqttClient
 from sensor_simulation.sensors.base_sensor import BaseSensor
 
