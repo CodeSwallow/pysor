@@ -1,0 +1,18 @@
+[General]
+broker_address = "test.mosquitto.org"
+log_file = "sensor_simulation.log"
+log_level = "INFO"
+
+[Sensors]
+
+[Sensors.TemperatureSensor]
+topic = "temperature"
+interval = 1
+min_temperature = 10
+max_temperature = 30
+
+[Sensors.HumiditySensor]
+topic = "humidity"
+interval = 5
+min_humidity = 10
+max_humidity = 30

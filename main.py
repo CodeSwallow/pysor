@@ -1,11 +1,34 @@
 from sensor_simulation import MqttClient, SensorManager
 from sensor_simulation.sensors import TemperatureSensor, HumiditySensor
+from sensor_simulation.config_parser import TomlParser
 
 
 if __name__ == '__main__':
-    mqtt_client = MqttClient("test.mosquitto.org")
-    temperature_sensor = TemperatureSensor(mqtt_client, "temperature", 1, 10, 30)
-    humidity_sensor = HumiditySensor(mqtt_client, "humidity", 1, 10, 30)
+    config_file = 'config.toml'
+    parser = TomlParser(config_file)
+    parser.read_config()
+
+    general_config = parser.get_general_config()
+    temperature_config = parser.get_sensor_config("TemperatureSensor")
+    humidity_config = parser.get_sensor_config("HumiditySensor")
+
+    mqtt_client = MqttClient(general_config["broker_address"])
+
+    temperature_sensor = TemperatureSensor(
+        mqtt_client,
+        temperature_config["topic"],
+        temperature_config["interval"],
+        temperature_config["min_temperature"],
+        temperature_config["max_temperature"]
+    )
+
+    humidity_sensor = HumiditySensor(
+        mqtt_client,
+        humidity_config["topic"],
+        humidity_config["interval"],
+        humidity_config["min_humidity"],
+        humidity_config["max_humidity"]
+    )
 
     sensor_manager = SensorManager()
     sensor_manager.add_sensor(temperature_sensor)
