@@ -8,9 +8,9 @@ def configure_logger(
     """
     Configure logger for the application
 
-    :param log_level: Log level
-    :param log_file: Log file
-    :param log_format: Log format
+    :param log_level: Log level (default: INFO)
+    :param log_file: Log file (default: logs/sensor_simulation.log)
+    :param log_format: Log format (default: %(asctime)s - %(levelname)s - %(message)s)
     :return: Logger object
     """
 
