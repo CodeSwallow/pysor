@@ -16,8 +16,8 @@ def configure_logger(
 
     handlers = [logging.StreamHandler()]
 
-    if log_file:
-        handlers.append(logging.FileHandler(log_file))
+    # if log_file:
+    #     handlers.append(logging.FileHandler(log_file))
 
     logging.basicConfig(
         level=log_level,
