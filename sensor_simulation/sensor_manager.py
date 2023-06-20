@@ -1,3 +1,6 @@
+import asyncio
+
+from sensor_simulation.mqtt_client import MqttClient
 from sensor_simulation.sensors.base_sensor import BaseSensor
 
 
@@ -24,11 +27,28 @@ class SensorManager:
         """
         self.sensors.append(sensor)
 
-    def start_publishing(self) -> None:
+    async def gather_tasks(self) -> None:
+        """
+        Gather all tasks that will be performed by the sensors
+
+        :return: None
+        """
+        while True:
+            await asyncio.gather(*(sensor.publish_data() for sensor in self.sensors))
+
+    async def start_publishing(self) -> None:
         """
         Start publishing messages to the broker with the given interval
 
         :return: None
         """
-        for sensor in self.sensors:
-            sensor.start_publishing()
+        await self.gather_tasks()
+
+    def run(self) -> None:
+        """
+        Start publishing messages to the broker with the given interval
+
+        :return: None
+        """
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.start_publishing())

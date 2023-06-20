@@ -1,41 +1,75 @@
 import time
+import asyncio
+
+from abc import ABC
+from abc import abstractmethod
+from typing import Any
 
 from sensor_simulation.mqtt_client import MqttClient
 
 
-class BaseSensor:
+class ISensor(ABC):
     """
-    Base sensor class
+    Interface for sensors
     """
 
-    def __init__(self, mqtt_client: MqttClient, topic: str, interval: float) -> None:
-        """
-        Constructor of the class
-
-        :param mqtt_client: MQTT client
-        :param topic: Name of the topic
-        :param interval: Interval of publishing messages
-        """
-        self.mqtt_client = mqtt_client
-        self.topic = topic
-        self.interval = interval
-
-    def generate_data(self) -> str:
+    @abstractmethod
+    def generate_data(self) -> Any:
         """
         Generate data to be published to the broker
 
         :return: Data
         """
-        raise NotImplementedError("Subclass must implement generate_data() method")
+        pass
 
+    @abstractmethod
     def start_publishing(self) -> None:
         """
         Start publishing messages to the broker with the given interval
 
         :return: None
         """
+        pass
+
+
+class BaseSensor(ISensor):
+    """
+    Base sensor class for all sensors
+    """
+
+    def __init__(self, mqtt_client: MqttClient, topic: str, interval: int):
+        self.mqtt_client = mqtt_client
+        self.topic = topic
+        self.interval = interval
+
+    @abstractmethod
+    def generate_data(self) -> Any:
+        """
+        Generate data to be published to the broker
+
+        :return: Data
+        """
+        pass
+
+    async def start_publishing(self) -> None:
+        """
+        Start publishing messages to the broker with the given interval
+
+        :return: None
+        """
+        await self.publish_data()
+
+    async def publish_data(self) -> None:
+        """
+        Publish data to the broker with the given interval
+
+        :return: None
+        """
         while True:
             data = self.generate_data()
-            print(f"Publishing data: {data}")
-            self.mqtt_client.publish(self.topic, data)
-            time.sleep(self.interval)
+            message = str(data)
+            print(f"Publishing message: {message}")
+            print(f'Client: {self.mqtt_client}')
+            print(f'Topic: {self.topic}')
+            await self.mqtt_client.publish(self.topic, message)
+            await asyncio.sleep(self.interval)

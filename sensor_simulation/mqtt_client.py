@@ -15,7 +15,7 @@ class MqttClient:
         self.client = mqtt.Client()
         self.client.connect(broker_address)
 
-    def publish(self, topic: str, message: str) -> None:
+    async def publish(self, topic: str, message: str) -> None:
         """
         Publish a message to a topic
 
