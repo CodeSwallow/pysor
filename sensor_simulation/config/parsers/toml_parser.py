@@ -2,7 +2,7 @@ import tomllib
 
 
 class TomlParser:
-    def __init__(self, config_file: str):
+    def __init__(self, config_file: str) -> None:
         self.config_file = config_file
         self.config = None
 

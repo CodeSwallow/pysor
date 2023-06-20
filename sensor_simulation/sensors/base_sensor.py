@@ -8,15 +8,6 @@ from typing import Any
 
 from sensor_simulation.mqtt_client import MqttClient
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("logs/sensor_simulation.log"),
-        logging.StreamHandler()
-    ]
-)
-
 
 class ISensor(ABC):
     """

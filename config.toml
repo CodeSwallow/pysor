@@ -1,6 +1,6 @@
 [General]
 broker_address = "test.mosquitto.org"
-log_file = "sensor_simulation.log"
+log_file = "logs/sensor_simulation.log"
 log_level = "INFO"
 
 [Sensors]

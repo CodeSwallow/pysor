@@ -1,6 +1,7 @@
 from sensor_simulation import MqttClient, SensorManager
 from sensor_simulation.sensors import TemperatureSensor, HumiditySensor
-from sensor_simulation.config_parser import TomlParser
+from sensor_simulation.config.parsers import TomlParser
+from sensor_simulation.config.logger import configure_logger
 
 
 if __name__ == '__main__':
@@ -11,6 +12,11 @@ if __name__ == '__main__':
     general_config = parser.get_general_config()
     temperature_config = parser.get_sensor_config("TemperatureSensor")
     humidity_config = parser.get_sensor_config("HumiditySensor")
+
+    configure_logger(
+        general_config["log_level"],
+        general_config["log_file"]
+    )
 
     mqtt_client = MqttClient(general_config["broker_address"])
 
