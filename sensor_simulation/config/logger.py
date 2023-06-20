@@ -6,7 +6,7 @@ def configure_logger(
         log_file: str = "logs/sensor_simulation.log",
         log_format: str = "%(asctime)s - %(levelname)s - %(message)s") -> logging.Logger:
     """
-    Configure logger
+    Configure logger for the application
 
     :param log_level: Log level
     :param log_file: Log file
