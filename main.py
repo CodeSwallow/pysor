@@ -13,11 +13,6 @@ if __name__ == '__main__':
     temperature_config = parser.get_sensor_config("TemperatureSensor")
     humidity_config = parser.get_sensor_config("HumiditySensor")
 
-    configure_logger(
-        general_config["log_level"],
-        general_config["log_file"]
-    )
-
     mqtt_client = MqttClient(general_config["broker_address"])
 
     temperature_sensor = TemperatureSensor(

@@ -1,7 +1,13 @@
 [General]
 broker_address = "test.mosquitto.org"
+broker_port = 1883
+client_id = "sensor_simulation"
+keep_alive = 60
+
+[Logging]
 log_file = "logs/sensor_simulation.log"
 log_level = "INFO"
+log_format = "%(asctime)s - %(levelname)s - %(message)s"
 
 [Sensors]
 

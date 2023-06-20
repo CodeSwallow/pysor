@@ -14,13 +14,15 @@ def configure_logger(
     :return: Logger object
     """
 
+    handlers = [logging.StreamHandler()]
+
+    if log_file:
+        handlers.append(logging.FileHandler(log_file))
+
     logging.basicConfig(
         level=log_level,
         format=log_format,
-        handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler()
-        ]
+        handlers=handlers
     )
 
     return logging.getLogger()
