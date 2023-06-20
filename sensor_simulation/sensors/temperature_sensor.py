@@ -21,5 +21,4 @@ class TemperatureSensor(BaseSensor):
 
         :return: Data
         """
-        print("Temperature sensor")
         return random.uniform(self.min_temperature, self.max_temperature)

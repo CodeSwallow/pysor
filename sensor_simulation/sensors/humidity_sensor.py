@@ -21,5 +21,4 @@ class HumiditySensor(BaseSensor):
 
         :return: Data
         """
-        print("Humidity sensor")
         return random.uniform(self.min_humidity, self.max_humidity)
