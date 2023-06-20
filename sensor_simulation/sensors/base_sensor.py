@@ -67,8 +67,9 @@ class BaseSensor(ISensor):
 
         :return: None
         """
-        data = self.generate_data()
-        message = str(data)
-        logging.info(f"Publishing message: {message} to topic: {self.topic}")
-        await self.mqtt_client.publish(self.topic, message)
-        await asyncio.sleep(self.interval)
+        while True:
+            data = self.generate_data()
+            message = str(data)
+            logging.info(f"Publishing message: {message} to topic: {self.topic}")
+            await self.mqtt_client.publish(self.topic, message)
+            await asyncio.sleep(self.interval)

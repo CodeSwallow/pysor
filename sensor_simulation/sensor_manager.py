@@ -34,8 +34,7 @@ class SensorManager:
 
         :return: None
         """
-        while True:
-            await asyncio.gather(*(sensor.publish_data() for sensor in self.sensors))
+        await asyncio.gather(*(sensor.publish_data() for sensor in self.sensors))
 
     def run(self) -> None:
         """
@@ -43,5 +42,4 @@ class SensorManager:
 
         :return: None
         """
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.start_publishing())
+        asyncio.run(self.start_publishing())
