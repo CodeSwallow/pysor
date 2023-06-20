@@ -33,7 +33,7 @@ class ISensor(ABC):
         pass
 
     @abstractmethod
-    def start_publishing(self) -> None:
+    def publish_data(self) -> None:
         """
         Start publishing messages to the broker with the given interval
 
@@ -47,7 +47,7 @@ class BaseSensor(ISensor):
     Base sensor class for all sensors
     """
 
-    def __init__(self, mqtt_client: MqttClient, topic: str, interval: int):
+    def __init__(self, mqtt_client: MqttClient, topic: str, interval: int) -> None:
         self.mqtt_client = mqtt_client
         self.topic = topic
         self.interval = interval
@@ -61,23 +61,14 @@ class BaseSensor(ISensor):
         """
         pass
 
-    async def start_publishing(self) -> None:
-        """
-        Start publishing messages to the broker with the given interval
-
-        :return: None
-        """
-        await self.publish_data()
-
     async def publish_data(self) -> None:
         """
         Publish data to the broker with the given interval
 
         :return: None
         """
-        while True:
-            data = self.generate_data()
-            message = str(data)
-            logging.info(f"Publishing message: {message} to topic: {self.topic}")
-            await self.mqtt_client.publish(self.topic, message)
-            await asyncio.sleep(self.interval)
+        data = self.generate_data()
+        message = str(data)
+        logging.info(f"Publishing message: {message} to topic: {self.topic}")
+        await self.mqtt_client.publish(self.topic, message)
+        await asyncio.sleep(self.interval)

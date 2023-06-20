@@ -28,22 +28,14 @@ class SensorManager:
         """
         self.sensors.append(sensor)
 
-    async def gather_tasks(self) -> None:
-        """
-        Gather all tasks that will be performed by the sensors
-
-        :return: None
-        """
-        while True:
-            await asyncio.gather(*(sensor.publish_data() for sensor in self.sensors))
-
     async def start_publishing(self) -> None:
         """
         Start publishing messages to the broker with the given interval
 
         :return: None
         """
-        await self.gather_tasks()
+        while True:
+            await asyncio.gather(*(sensor.publish_data() for sensor in self.sensors))
 
     def run(self) -> None:
         """
