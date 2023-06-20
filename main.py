@@ -7,8 +7,6 @@ if __name__ == '__main__':
     temperature_sensor = TemperatureSensor(mqtt_client, "temperature", 1, 10, 30)
     humidity_sensor = HumiditySensor(mqtt_client, "humidity", 1, 10, 30)
 
-    # temperature_sensor.start_publishing()
-
     sensor_manager = SensorManager()
     sensor_manager.add_sensor(temperature_sensor)
     sensor_manager.add_sensor(humidity_sensor)

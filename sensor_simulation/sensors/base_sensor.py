@@ -1,11 +1,21 @@
 import time
 import asyncio
+import logging
 
 from abc import ABC
 from abc import abstractmethod
 from typing import Any
 
 from sensor_simulation.mqtt_client import MqttClient
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("sensor_simulation.log"),
+        logging.StreamHandler()
+    ]
+)
 
 
 class ISensor(ABC):
@@ -68,8 +78,6 @@ class BaseSensor(ISensor):
         while True:
             data = self.generate_data()
             message = str(data)
-            print(f"Publishing message: {message}")
-            print(f'Client: {self.mqtt_client}')
-            print(f'Topic: {self.topic}')
+            logging.info(f"Publishing message: {message} to topic: {self.topic}")
             await self.mqtt_client.publish(self.topic, message)
             await asyncio.sleep(self.interval)

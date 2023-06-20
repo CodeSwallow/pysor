@@ -7,12 +7,13 @@ from sensor_simulation.sensors.base_sensor import BaseSensor
 class SensorManager:
     """
     The SensorManager class is responsible for managing the sensors in the simulation
-    environment when there are multiple sensors.
+    environment when there are one or more sensors.
     """
 
     def __init__(self) -> None:
         """
         Constructor of the class
+        Create an empty list of sensors to be added later
 
         :param sensors: List of sensors
         """
