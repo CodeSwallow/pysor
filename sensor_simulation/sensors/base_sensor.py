@@ -12,7 +12,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("sensor_simulation.log"),
+        logging.FileHandler("logs/sensor_simulation.log"),
         logging.StreamHandler()
     ]
 )
