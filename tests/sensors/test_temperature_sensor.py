@@ -8,11 +8,22 @@ from sensor_simulation.sensors import TemperatureSensor
 
 @pytest.fixture
 def mqtt_client_mock() -> MagicMock:
+    """
+    Fixture for the MQTT client mock
+
+    :return: MQTT client mock
+    """
     return MagicMock()
 
 
 @pytest.fixture
 def temperature_sensor(mqtt_client_mock: MagicMock) -> TemperatureSensor:
+    """
+    Fixture for the TemperatureSensor instance
+
+    :param mqtt_client_mock: MQTT client mock
+    :return: TemperatureSensor instance
+    """
     return TemperatureSensor(mqtt_client_mock, "test/temperature", 1, 100, 100)
 
 
@@ -26,7 +37,7 @@ def test_generate_data(temperature_sensor: TemperatureSensor) -> None:
     data = temperature_sensor.generate_data()
 
     assert isinstance(data, float)
-    assert 0 <= data <= 100
+    assert temperature_sensor.min_temperature <= data <= temperature_sensor.max_temperature
 
 
 @pytest.mark.asyncio
