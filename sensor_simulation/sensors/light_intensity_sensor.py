@@ -11,10 +11,10 @@ class LightIntensitySensor(BaseSensor):
     Light intensity sensor class
     """
 
-    def __init__(self, mqtt_client: MqttClient, topic: str, interval: int, min_light: int, max_light: int) -> None:
+    def __init__(self, mqtt_client: MqttClient, topic: str, interval: int, min_light_intensity: int, max_light_intensity: int) -> None:
         super().__init__(mqtt_client, topic, interval)
-        self.min_light = min_light
-        self.max_light = max_light
+        self.min_light_intensity = min_light_intensity
+        self.max_light_intensity = max_light_intensity
 
     def generate_data(self) -> float:
         """
@@ -22,4 +22,4 @@ class LightIntensitySensor(BaseSensor):
 
         :return: Data
         """
-        return random.uniform(self.min_light, self.max_light)
+        return random.uniform(self.min_light_intensity, self.max_light_intensity)
