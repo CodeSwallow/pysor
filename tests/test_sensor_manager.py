@@ -23,7 +23,7 @@ def temperature_sensor(mqtt_client_mock: MagicMock) -> TemperatureSensor:
     :param mqtt_client_mock: MQTT client mock
     :return: TemperatureSensor instance
     """
-    return TemperatureSensor(mqtt_client_mock, "test/temperature", 1, current_temperature=20)
+    return TemperatureSensor(mqtt_client_mock, "test/temperature", 0.1, current_temperature=20)
 
 
 def test_add_sensor(temperature_sensor: TemperatureSensor) -> None:
@@ -59,7 +59,7 @@ async def test_start_publishing(mqtt_client_mock: MagicMock, temperature_sensor:
     mqtt_client_mock.publish.return_value.set_result(None)
 
     publish_task = asyncio.create_task(sensor_manager.start_publishing())
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.1)
     publish_task.cancel()
 
     publish_calls = mqtt_client_mock.publish.call_args_list

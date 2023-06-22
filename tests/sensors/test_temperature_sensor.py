@@ -24,7 +24,7 @@ def temperature_sensor(mqtt_client_mock: MagicMock) -> TemperatureSensor:
     :param mqtt_client_mock: MQTT client mock
     :return: TemperatureSensor instance
     """
-    return TemperatureSensor(mqtt_client_mock, "test/temperature", 1, current_temperature=20)
+    return TemperatureSensor(mqtt_client_mock, "test/temperature", 0.1, current_temperature=20)
 
 
 @pytest.fixture
@@ -35,7 +35,7 @@ def temperature_sensor_with_out_of_range_interval(mqtt_client_mock: MagicMock) -
     :param mqtt_client_mock: MQTT client mock
     :return: TemperatureSensor instance
     """
-    return TemperatureSensor(mqtt_client_mock, "test/temperature", 1, current_temperature=20, temperature_change=20)
+    return TemperatureSensor(mqtt_client_mock, "test/temperature", 0.1, current_temperature=20, temperature_change=20)
 
 
 def test_generate_data(temperature_sensor: TemperatureSensor) -> None:
@@ -66,7 +66,7 @@ async def test_publish_data(mqtt_client_mock: MagicMock, temperature_sensor: Tem
     mqtt_client_mock.publish.return_value.set_result(None)
 
     task = asyncio.create_task(temperature_sensor.publish_data())
-    await asyncio.sleep(2)
+    await asyncio.sleep(0.2)
     task.cancel()
 
     publish_calls = mqtt_client_mock.publish.call_args_list
@@ -97,7 +97,7 @@ async def test_publish_data_with_out_of_range_interval(mqtt_client_mock: MagicMo
     mqtt_client_mock.publish.return_value.set_result(None)
 
     task = asyncio.create_task(temperature_sensor_with_out_of_range_interval.publish_data())
-    await asyncio.sleep(2)
+    await asyncio.sleep(0.2)
     task.cancel()
 
     publish_calls = mqtt_client_mock.publish.call_args_list

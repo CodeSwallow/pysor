@@ -24,7 +24,7 @@ def light_intensity_sensor(mqtt_client_mock: MagicMock) -> LightIntensitySensor:
     :param mqtt_client_mock: MQTT client mock
     :return: LightIntensitySensor instance
     """
-    return LightIntensitySensor(mqtt_client_mock, "test/light_intensity", 0.5, current_light_intensity=20)
+    return LightIntensitySensor(mqtt_client_mock, "test/light_intensity", 0.1, current_light_intensity=20)
 
 
 def test_generate_data(light_intensity_sensor: LightIntensitySensor) -> None:
@@ -55,7 +55,7 @@ async def test_publish_data(mqtt_client_mock: MagicMock, light_intensity_sensor:
     mqtt_client_mock.publish.return_value.set_result(None)
 
     task = asyncio.create_task(light_intensity_sensor.publish_data())
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.2)
     task.cancel()
 
     publish_calls = mqtt_client_mock.publish.call_args_list

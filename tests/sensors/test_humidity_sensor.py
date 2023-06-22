@@ -24,7 +24,7 @@ def humidity_sensor(mqtt_client_mock: MagicMock) -> HumiditySensor:
     :param mqtt_client_mock: MQTT client mock
     :return: HumiditySensor instance
     """
-    return HumiditySensor(mqtt_client_mock, "test/humidity", 1)
+    return HumiditySensor(mqtt_client_mock, "test/humidity", 0.1)
 
 
 def test_generate_data(humidity_sensor: HumiditySensor) -> None:
@@ -55,7 +55,7 @@ async def test_publish_data(mqtt_client_mock: MagicMock, humidity_sensor: Humidi
     mqtt_client_mock.publish.return_value.set_result(None)
 
     task = asyncio.create_task(humidity_sensor.publish_data())
-    await asyncio.sleep(2)
+    await asyncio.sleep(0.2)
     task.cancel()
 
     publish_calls = mqtt_client_mock.publish.call_args_list
