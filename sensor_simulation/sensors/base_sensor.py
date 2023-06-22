@@ -38,7 +38,7 @@ class BaseSensor(ISensor):
     Base sensor class for all sensors
     """
 
-    def __init__(self, mqtt_client: MqttClient, topic: str, interval: int) -> None:
+    def __init__(self, mqtt_client: MqttClient, topic: str, interval: float) -> None:
         self.mqtt_client = mqtt_client
         self.topic = topic
         self.interval = interval

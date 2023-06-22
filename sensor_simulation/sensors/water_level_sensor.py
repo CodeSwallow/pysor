@@ -14,7 +14,7 @@ class WaterLevelSensor(BaseSensor):
     def __init__(self,
                  mqtt_client: MqttClient,
                  topic: str,
-                 interval: int = 300,
+                 interval: float = 300.0,
                  min_water_level: int = 30,
                  max_water_level: int = 100,
                  water_level_change: int = -0.01,

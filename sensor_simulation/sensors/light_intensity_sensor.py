@@ -13,7 +13,7 @@ class LightIntensitySensor(BaseSensor):
     def __init__(self,
                  mqtt_client: MqttClient,
                  topic: str,
-                 interval: int = 120,
+                 interval: float = 120.0,
                  min_light_intensity: int = 0,
                  max_light_intensity: int = 10000,
                  light_intensity_change: int = 25,

@@ -14,7 +14,7 @@ class TemperatureSensor(BaseSensor):
     def __init__(self,
                  mqtt_client: MqttClient,
                  topic: str,
-                 interval: int = 10,
+                 interval: float = 10.0,
                  min_temperature: int = 15,
                  max_temperature: int = 30,
                  temperature_change: float = 0.1,

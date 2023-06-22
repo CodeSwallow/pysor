@@ -13,7 +13,7 @@ class HumiditySensor(BaseSensor):
     def __init__(self,
                  mqtt_client: MqttClient,
                  topic: str,
-                 interval: int = 120,
+                 interval: float = 120.0,
                  min_humidity: int = 30,
                  max_humidity: int = 80,
                  humidity_change: float = 1.0,
