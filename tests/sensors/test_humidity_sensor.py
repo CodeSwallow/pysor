@@ -24,7 +24,7 @@ def humidity_sensor(mqtt_client_mock: MagicMock) -> HumiditySensor:
     :param mqtt_client_mock: MQTT client mock
     :return: HumiditySensor instance
     """
-    return HumiditySensor(mqtt_client_mock, "test/humidity", 1, 15, 15)
+    return HumiditySensor(mqtt_client_mock, "test/humidity", 1)
 
 
 def test_generate_data(humidity_sensor: HumiditySensor) -> None:
@@ -49,6 +49,8 @@ async def test_publish_data(mqtt_client_mock: MagicMock, humidity_sensor: Humidi
     :param humidity_sensor: HumiditySensor instance
     :return: None
     """
+    initial_humidity = humidity_sensor.current_humidity
+
     mqtt_client_mock.publish.return_value = asyncio.Future()
     mqtt_client_mock.publish.return_value.set_result(None)
 
@@ -57,9 +59,7 @@ async def test_publish_data(mqtt_client_mock: MagicMock, humidity_sensor: Humidi
     task.cancel()
 
     publish_calls = mqtt_client_mock.publish.call_args_list
-    max_humidity = float(humidity_sensor.max_humidity)
-    expected_topic_call = call("test/humidity", str(max_humidity))
 
-    assert expected_topic_call in publish_calls
     assert len(publish_calls) == 2
-    assert all(call_args == expected_topic_call for call_args in publish_calls)
+    for publish_call in publish_calls:
+        assert float(publish_call[0][1]) > float(initial_humidity)

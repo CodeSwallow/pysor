@@ -23,7 +23,7 @@ def temperature_sensor(mqtt_client_mock: MagicMock) -> TemperatureSensor:
     :param mqtt_client_mock: MQTT client mock
     :return: TemperatureSensor instance
     """
-    return TemperatureSensor(mqtt_client_mock, "test/temperature", 1, 100, 100)
+    return TemperatureSensor(mqtt_client_mock, "test/temperature", 1, current_temperature=20)
 
 
 def test_add_sensor(temperature_sensor: TemperatureSensor) -> None:
@@ -43,7 +43,8 @@ def test_add_sensor(temperature_sensor: TemperatureSensor) -> None:
 @pytest.mark.asyncio
 async def test_start_publishing(mqtt_client_mock: MagicMock, temperature_sensor: TemperatureSensor) -> None:
     """
-    Test the start_publishing method of the SensorManager class
+    Test the start_publishing method of the SensorManager class.
+    The temperature sensor should publish a message with a temperature higher than the initial temperature.
 
     :param mqtt_client_mock: Mock of the MQTT client
     :param temperature_sensor: TemperatureSensor instance
@@ -51,6 +52,8 @@ async def test_start_publishing(mqtt_client_mock: MagicMock, temperature_sensor:
     """
     sensor_manager = SensorManager()
     sensor_manager.add_sensor(temperature_sensor)
+
+    initial_temperature = temperature_sensor.current_temperature
 
     mqtt_client_mock.publish.return_value = asyncio.Future()
     mqtt_client_mock.publish.return_value.set_result(None)
@@ -60,8 +63,6 @@ async def test_start_publishing(mqtt_client_mock: MagicMock, temperature_sensor:
     publish_task.cancel()
 
     publish_calls = mqtt_client_mock.publish.call_args_list
-    max_temperature = float(temperature_sensor.max_temperature)
-    expected_topic_call = call("test/temperature", str(max_temperature))
 
-    assert expected_topic_call in publish_calls
     assert len(publish_calls) == 1
+    assert float(publish_calls[0][0][1]) > float(initial_temperature)
