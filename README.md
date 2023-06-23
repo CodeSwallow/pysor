@@ -1,5 +1,5 @@
 <div align="center">
-<img src="artwork/Pysor.png" alt="logo" width="200"/>
+<img src="artwork/Pysor.png" alt="logo"/>
 </div>
 
 <div align="center">
