@@ -1,7 +1,5 @@
 ![pysor logo](artwork%2FPysor.png)
 
-# Pysor
-
 Pysor is a Python library for the simulation of various sensors. It is designed to be used with the broker of your choice.
 It uses the Paho MQTT library to communicate with the broker.
 
