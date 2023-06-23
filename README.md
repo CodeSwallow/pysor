@@ -1,4 +1,11 @@
-![pysor logo](artwork%2FPysor.png)
+<div align="center">
+<img src="artwork/Pysor.png" alt="logo" width="200"/>
+</div>
+
+<div align="center">
+<img src="https://github.com/CodeSwallow/pysor/actions/workflows/python-package.yml/badge.svg" alt="workflow status"/>
+<img src="artwork/coverage.svg" alt="coverage"/>
+</div>
 
 Pysor is a Python library for the simulation of various sensors. It is designed to be used with the broker of your choice.
 It uses the Paho MQTT library to communicate with the broker.
