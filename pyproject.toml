@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "pysor"
 version = "0.1.0"
-description = ""
+description = "Python package for simulating sensors"
 authors = ["Isai Ramirez <86127102+CodeSwallow@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 paho-mqtt = "^1.6.1"
 
 
