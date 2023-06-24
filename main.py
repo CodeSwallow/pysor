@@ -11,6 +11,7 @@ from sensor_simulation.config.logger import configure_logger
 
 if __name__ == '__main__':
     mqtt_client = MqttClient('test.mosquitto.org')
+    parser = TomlParser('config.toml')
 
     temperature_sensor = TemperatureSensor(mqtt_client, 'sensor/temperature', interval=1)
     humidity_sensor = HumiditySensor(mqtt_client, 'sensor/humidity', interval=1)

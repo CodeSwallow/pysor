@@ -1,4 +1,9 @@
-import tomllib
+import sys
+
+if sys.version_info < (3, 11):
+    import toml as tomllib
+else:
+    import tomllib
 
 
 class TomlParser:
@@ -8,12 +13,16 @@ class TomlParser:
 
     def read_config(self) -> None:
         """
-        Read the config file and store the config in a dictionary
+        Read the config file or string and store the config in a dictionary
 
         :return: None
         """
-        with open(self.config_file, "rb") as config_file:
-            self.config = tomllib.load(config_file)
+
+        if self.config_file.endswith('.toml'):
+            with open(self.config_file, 'rb') as f:
+                self.config = tomllib.load(f)
+        else:
+            self.config = tomllib.loads(self.config_file)
 
     def get_general_config(self) -> dict:
         """
