@@ -17,17 +17,17 @@ class PhSensor(BaseSensor):
                  interval: float = 10.0,
                  min_ph: float = 5.5,
                  max_ph: float = 6.5,
-                 temperature_change: float = 0.01,
-                 current_temperature: float = None
+                 ph_change: float = 0.01,
+                 current_ph: float = None
                  ) -> None:
         super().__init__(mqtt_client, topic, interval)
         self.min_ph = min_ph
         self.max_ph = max_ph
-        self.temperature_change = temperature_change
+        self.ph_change = ph_change
 
-        if current_temperature is None:
-            current_temperature = (max_ph + min_ph) / 2
-        self.current_temperature = current_temperature
+        if current_ph is None:
+            current_ph = (max_ph + min_ph) / 2
+        self.current_ph = current_ph
 
     def generate_data(self) -> float:
         """
@@ -35,14 +35,14 @@ class PhSensor(BaseSensor):
 
         :return: pH Data
         """
-        self.current_temperature += self.temperature_change
+        self.current_ph += self.ph_change
 
-        if self.current_temperature >= self.max_ph:
-            self.current_temperature = self.max_ph
-            self.temperature_change = -abs(self.temperature_change)
+        if self.current_ph >= self.max_ph:
+            self.current_ph = self.max_ph
+            self.ph_change = -abs(self.ph_change)
 
-        if self.current_temperature <= self.min_ph:
-            self.current_temperature = self.min_ph
-            self.temperature_change = abs(self.temperature_change)
+        if self.current_ph <= self.min_ph:
+            self.current_ph = self.min_ph
+            self.ph_change = abs(self.ph_change)
 
-        return self.current_temperature
+        return self.current_ph
