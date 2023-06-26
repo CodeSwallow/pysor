@@ -1,4 +1,3 @@
-import random
 import asyncio
 
 
@@ -16,14 +15,19 @@ class PhSensor(BaseSensor):
                  mqtt_client: MqttClient,
                  topic: str,
                  interval: float = 10.0,
-                 min_ph: float = 0.0,
-                 max_ph: float = 14.0,
+                 min_ph: float = 5.5,
+                 max_ph: float = 6.5,
                  temperature_change: float = 0.01,
-                 current_temperature: float = 7.0
+                 current_temperature: float = None
                  ) -> None:
         super().__init__(mqtt_client, topic, interval)
         self.min_ph = min_ph
         self.max_ph = max_ph
+        self.temperature_change = temperature_change
+
+        if current_temperature is None:
+            current_temperature = (max_ph + min_ph) / 2
+        self.current_temperature = current_temperature
 
     def generate_data(self) -> float:
         """
@@ -31,4 +35,14 @@ class PhSensor(BaseSensor):
 
         :return: pH Data
         """
-        return random.uniform(self.min_ph, self.max_ph)
+        self.current_temperature += self.temperature_change
+
+        if self.current_temperature >= self.max_ph:
+            self.current_temperature = self.max_ph
+            self.temperature_change = -abs(self.temperature_change)
+
+        if self.current_temperature <= self.min_ph:
+            self.current_temperature = self.min_ph
+            self.temperature_change = abs(self.temperature_change)
+
+        return self.current_temperature
