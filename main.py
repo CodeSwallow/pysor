@@ -18,7 +18,7 @@ if __name__ == '__main__':
     humidity_sensor = HumiditySensor(mqtt_client, 'sensor/humidity', interval=1)
     water_level_sensor = WaterLevelSensor(mqtt_client, 'sensor/water_level', interval=1)
     light_intensity_sensor = LightIntensitySensor(mqtt_client, 'sensor/light_intensity', interval=1)
-    ph_sensor = PhSensor(mqtt_client, 'sensor/ph', interval=1, ph_change=0.3)
+    ph_sensor = PhSensor(mqtt_client, 'sensor/ph', interval=1)
 
     sensor_manager = SensorManager()
 

@@ -6,14 +6,26 @@ class MqttClient:
     A class used to represent a MQTT client
     """
 
-    def __init__(self, broker_address: str) -> None:
+    def __init__(self,
+                 broker_address: str,
+                 port: int = 1883,
+                 keepalive: int = 60,
+                 bind_address: str = "",
+                 bind_port: int = 0,
+                 ) -> None:
         """
         Constructor of the class
 
         :param broker_address: IP address of the broker
         """
         self.client = mqtt.Client()
-        self.client.connect(broker_address)
+        self.client.connect(
+            broker_address,
+            port=port,
+            keepalive=keepalive,
+            bind_address=bind_address,
+            bind_port=bind_port
+        )
 
     async def publish(self, topic: str, message: str) -> None:
         """
