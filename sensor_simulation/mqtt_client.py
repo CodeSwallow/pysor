@@ -17,6 +17,10 @@ class MqttClient:
         Constructor of the class
 
         :param broker_address: IP address of the broker
+        :param port: Port of the broker
+        :param keepalive: Keepalive time
+        :param bind_address: Bind address
+        :param bind_port: Bind port
         """
         self.client = mqtt.Client()
         self.client.connect(
