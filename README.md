@@ -86,3 +86,22 @@ sensor_manager.add_sensor(light_intensity_sensor)
 
 sensor_manager.run()
 ```
+
+## MqttClient
+The MqttClient class is used to publish messages to the broker. It uses the Paho MQTT library to communicate with the broker.
+```python
+mqtt_client = MqttClient('test.mosquitto.org')
+```
+
+### Options
+The MqttClient class has a few options that can be set.
+```python
+    def __init__(self,
+                 broker_address: str,
+                 port: int = 1883,
+                 keepalive: int = 60,
+                 bind_address: str = "",
+                 bind_port: int = 0,
+                 ) -> None:
+    ...
+```
