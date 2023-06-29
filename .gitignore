@@ -163,3 +163,4 @@ cython_debug/
 # Directory for local testing of MQTT scripts
 
 scripts/
+aws_config.toml
