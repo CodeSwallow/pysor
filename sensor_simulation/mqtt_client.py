@@ -1,3 +1,5 @@
+from ssl import SSLContext
+
 import paho.mqtt.client as mqtt
 
 
@@ -23,13 +25,11 @@ class MqttClient:
         :param bind_port: Bind port
         """
         self.client = mqtt.Client()
-        self.client.connect(
-            broker_address,
-            port=port,
-            keepalive=keepalive,
-            bind_address=bind_address,
-            bind_port=bind_port
-        )
+        self.broker_address = broker_address
+        self.port = port
+        self.keepalive = keepalive
+        self.bind_address = bind_address
+        self.bind_port = bind_port
 
     async def publish(self, topic: str, message: str) -> None:
         """
@@ -49,3 +49,28 @@ class MqttClient:
         :return: None
         """
         self.client.subscribe(topic)
+
+    def tls_set_context(self, context: SSLContext) -> None:
+        """
+        Set the TLS context
+
+        :param context: TLS context
+        :return: None
+        """
+        self.client.tls_set_context(context)
+
+    def connect(self) -> None:
+        """
+        Connect to the broker
+
+        :return: None
+        """
+        self.client.connect(self.broker_address, self.port, self.keepalive, self.bind_address, self.bind_port)
+
+    def loop_start(self) -> None:
+        """
+        Start the loop
+
+        :return: None
+        """
+        self.client.loop_start()

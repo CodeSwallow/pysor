@@ -164,3 +164,4 @@ cython_debug/
 
 scripts/
 aws_config.toml
+certs/
