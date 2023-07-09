@@ -109,3 +109,28 @@ async def test_publish_data_with_out_of_range_interval(mqtt_client_mock: MagicMo
 
     assert float(publish_calls[1][0][1]) < float(initial_temperature)
     assert float(publish_calls[1][0][1]) >= float(min_temperature)
+
+
+@pytest.mark.asyncio
+async def test_stop(temperature_sensor: TemperatureSensor, mqtt_client_mock: MagicMock) -> None:
+    """
+    Test the stop method of the TemperatureSensor class
+
+    :param temperature_sensor: TemperatureSensor instance
+    :param mqtt_client_mock: Mock of the MQTT client
+    :return: None
+    """
+    mqtt_client_mock.publish.return_value = asyncio.Future()
+    mqtt_client_mock.publish.return_value.set_result(None)
+
+    asyncio.create_task(temperature_sensor.publish_data())
+    await asyncio.sleep(0.2)
+    temperature_sensor.stop()
+    await asyncio.sleep(0.2)
+
+    publish_calls_before_stop = len(mqtt_client_mock.publish.call_args_list)
+    await asyncio.sleep(0.5)
+    publish_calls_after_stop = len(mqtt_client_mock.publish.call_args_list)
+
+    assert publish_calls_before_stop > 0, "Expected sensor to publish data before stop"
+    assert publish_calls_before_stop == publish_calls_after_stop, "Expected sensor to stop publishing data after stop"
