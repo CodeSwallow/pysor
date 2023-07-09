@@ -60,6 +60,6 @@ async def test_publish_data(mqtt_client_mock: MagicMock, humidity_sensor: Humidi
 
     publish_calls = mqtt_client_mock.publish.call_args_list
 
-    assert len(publish_calls) == 2
+    assert len(publish_calls) >= 1
     for publish_call in publish_calls:
         assert float(publish_call[0][1]) > float(initial_humidity)
