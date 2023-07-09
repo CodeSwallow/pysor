@@ -52,6 +52,3 @@ class SensorManager:
         """
         for sensor in self.sensors:
             sensor.stop()
-        self.loop.run_until_complete(asyncio.gather(*(sensor.done for sensor in self.sensors)))
-        self.loop.stop()
-
