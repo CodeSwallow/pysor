@@ -1,3 +1,5 @@
+import asyncio
+
 from ssl import SSLContext
 
 import paho.mqtt.client as mqtt
@@ -39,7 +41,9 @@ class MqttClient:
         :param message: Message to be published
         :return: None
         """
-        self.client.publish(topic, message)
+        # self.client.publish(topic, message)
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, self.client.publish, topic, message)
 
     def subscribe(self, topic: str) -> None:
         """

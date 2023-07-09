@@ -43,11 +43,11 @@ if __name__ == '__main__':
     mqtt_client.connect()
     mqtt_client.loop_start()
 
-    temperature_sensor = TemperatureSensor(mqtt_client, 'sensor/temperature')
-    humidity_sensor = HumiditySensor(mqtt_client, 'sensor/humidity')
-    water_level_sensor = WaterLevelSensor(mqtt_client, 'sensor/water_level')
-    light_intensity_sensor = LightIntensitySensor(mqtt_client, 'sensor/light_intensity')
-    ph_sensor = PhSensor(mqtt_client, 'sensor/ph')
+    temperature_sensor = TemperatureSensor(mqtt_client, 'sensor/temperature', 1)
+    humidity_sensor = HumiditySensor(mqtt_client, 'sensor/humidity', 2)
+    water_level_sensor = WaterLevelSensor(mqtt_client, 'sensor/water_level', 3)
+    light_intensity_sensor = LightIntensitySensor(mqtt_client, 'sensor/light_intensity', 4)
+    ph_sensor = PhSensor(mqtt_client, 'sensor/ph', 5)
 
     sensor_manager = SensorManager()
 
