@@ -57,5 +57,7 @@ if __name__ == '__main__':
     sensor_manager.add_sensor(light_intensity_sensor)
     sensor_manager.add_sensor(ph_sensor)
 
-    sensor_manager.run()
-
+    try:
+        sensor_manager.run()
+    except KeyboardInterrupt:
+        sensor_manager.stop_all()

@@ -43,6 +43,7 @@ class BaseSensor(ISensor):
         self.topic = topic
         self.interval = interval
         self.running = True
+        self.done = asyncio.Future()
 
     @abstractmethod
     def generate_data(self) -> Any:
@@ -65,6 +66,7 @@ class BaseSensor(ISensor):
             logging.info(f"Publishing message: {message} to topic: {self.topic}")
             await self.mqtt_client.publish(self.topic, message)
             await asyncio.sleep(self.interval)
+        self.done.set_result(True)
 
     def stop(self) -> None:
         """

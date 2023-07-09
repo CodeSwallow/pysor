@@ -16,6 +16,7 @@ class SensorManager:
         Create an empty list of sensors to be added later
         """
         self.sensors = []
+        self.loop = asyncio.get_event_loop()
 
     def add_sensor(self, sensor: BaseSensor) -> None:
         """
@@ -33,6 +34,7 @@ class SensorManager:
         :return: None
         """
         await asyncio.gather(*(sensor.publish_data() for sensor in self.sensors))
+        # await asyncio.wait([sensor.publish_data() for sensor in self.sensors])
 
     def run(self) -> None:
         """
@@ -40,4 +42,16 @@ class SensorManager:
 
         :return: None
         """
-        asyncio.run(self.start_publishing())
+        self.loop.run_until_complete(self.start_publishing())
+
+    def stop_all(self) -> None:
+        """
+        Stop publishing data to the broker
+
+        :return: None
+        """
+        for sensor in self.sensors:
+            sensor.stop()
+        self.loop.run_until_complete(asyncio.gather(*(sensor.done for sensor in self.sensors)))
+        self.loop.stop()
+
