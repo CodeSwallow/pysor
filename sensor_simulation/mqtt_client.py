@@ -41,7 +41,6 @@ class MqttClient:
         :param message: Message to be published
         :return: None
         """
-        # self.client.publish(topic, message)
         loop = asyncio.get_event_loop()
         await loop.run_in_executor(None, self.client.publish, topic, message)
 

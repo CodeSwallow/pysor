@@ -14,8 +14,6 @@ class SensorManager:
         """
         Constructor of the class
         Create an empty list of sensors to be added later
-
-        :param sensors: List of sensors
         """
         self.sensors = []
 
