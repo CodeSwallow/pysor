@@ -42,6 +42,7 @@ class BaseSensor(ISensor):
         self.mqtt_client = mqtt_client
         self.topic = topic
         self.interval = interval
+        self.running = True
 
     @abstractmethod
     def generate_data(self) -> Any:
@@ -58,9 +59,17 @@ class BaseSensor(ISensor):
 
         :return: None
         """
-        while True:
+        while self.running:
             data = self.generate_data()
             message = str(data)
             logging.info(f"Publishing message: {message} to topic: {self.topic}")
             await self.mqtt_client.publish(self.topic, message)
             await asyncio.sleep(self.interval)
+
+    def stop(self) -> None:
+        """
+        Stop publishing data to the broker
+
+        :return: None
+        """
+        self.running = False
