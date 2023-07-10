@@ -7,14 +7,17 @@
 <img src="artwork/coverage.svg" alt="coverage"/>
 </div>
 
-Pysor is a Python library for the simulation of various sensors. It is designed to be used with the broker of your choice.
-It uses the Paho MQTT library to communicate with the broker.
+Pysor is a Python library for the simulation of various sensors. It is designed to be used with an MQTT broker of your choice, providing an easy and flexible way to simulate sensor data for IoT applications. 
 
 ## Installation
-Not yet available on PyPi. To install, clone the repository and run `pip install -r requirements.txt` in the root directory.
+Pysor is available on PyPi. You can install it via pip:
+
+```shell
+pip install pysor
+```
 
 ## Quickstart
-Import the MqttClient class to create a client object. The client object can be used to publish messages to the broker.
+Here's a quick example showing how to simulate a temperature sensor using Pysor:
 
 ```python
 from sensor_simulation import MqttClient, SensorManager
@@ -22,22 +25,28 @@ from sensor_simulation.sensors import TemperatureSensor
 
 
 if __name__ == '__main__':
-    mqtt_client = MqttClient('test.mosquitto.org')
+    mqtt_client = MqttClient('your.broker.org')
 
     temperature_sensor = TemperatureSensor(mqtt_client, 'sensor/temperature')
 
     sensor_manager = SensorManager()
     sensor_manager.add_sensor(temperature_sensor)
-    sensor_manager.run()
+
+    try:
+        sensor_manager.run()
+    except KeyboardInterrupt:
+        sensor_manager.stop_all()
+
 ```
 
-## Sensors
-Sensors are classes that inherit from the Sensor class. They can be added to the SensorManager to be run.
-### Currently available sensors:
+## Available Sensors
+Pysor comes with a variety of pre-built sensor simulations:
+
 - TemperatureSensor
 - HumiditySensor
 - LightIntensitySensor
 - WaterLevelSensor
+- PhSensor
 
 All sensors have parameters to set the mqtt client, the topic and the interval at which the sensor should publish messages.
 
@@ -64,14 +73,11 @@ class HumiditySensor(BaseSensor):
 ## Custom Sensors
 Extend the BaseSensor class and implement the 'generate_data' method. This method should return the data to be published.
 ```python
-@abstractmethod
-def generate_data(self) -> Any:
-    """
-    Generate data to be published to the broker
-
-    :return: Data
-    """
-    pass
+class MyCustomSensor(BaseSensor):
+    
+    def generate_data(self) -> Any:
+        # Your custom data generation logic here
+        ...
 ```
 
 ## SensorManager
@@ -84,24 +90,17 @@ sensor_manager.add_sensor(humidity_sensor)
 sensor_manager.add_sensor(water_level_sensor)
 sensor_manager.add_sensor(light_intensity_sensor)
 
-sensor_manager.run()
+try:
+    sensor_manager.run()
+except KeyboardInterrupt:
+    sensor_manager.stop_all()
 ```
 
 ## MqttClient
 The MqttClient class is used to publish messages to the broker. It uses the Paho MQTT library to communicate with the broker.
 ```python
-mqtt_client = MqttClient('test.mosquitto.org')
+mqtt_client = MqttClient('your.broker.org')
 ```
 
-### Options
-The MqttClient class has a few options that can be set.
-```python
-    def __init__(self,
-                 broker_address: str,
-                 port: int = 1883,
-                 keepalive: int = 60,
-                 bind_address: str = "",
-                 bind_port: int = 0,
-                 ) -> None:
-    ...
-```
+### License
+Pysor is licensed under the MIT License. See the LICENSE file for more details
