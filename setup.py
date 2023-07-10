@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="Pysor",
-    version="0.1",
+    name="pysor",
+    version="0.1.1",
     packages=find_packages(),
     description="A Python package for sensor simulations",
     long_description=open("README.md", "r").read(),
