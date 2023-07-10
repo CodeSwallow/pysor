@@ -1,0 +1,7 @@
+[General]
+broker_address = "your-address.iot.us-west-1.amazonaws.com"
+broker_port = 443
+alpn_context = "x-amzn-mqtt-ca"
+ca_path = "path/to/AmazonRootCA1.pem"
+cert_path = "path/to/certificate.pem"
+key_path = "path/to/private_key.pem"

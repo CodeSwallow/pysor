@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # The library can be used with any MQTT broker, but this example uses AWS IoT Core.
     # TomlParser is not necessary, but it is a good way to store your configuration.
 
-    parser = TomlParser('aws_config.toml')  # Parse the config file, or use your data directly instead of the parser
+    parser = TomlParser('example_aws_config.toml')  # Parse the config file, or use your data directly instead of the parser
     parser.read_config()
     general_config = parser.get_general_config()
 
