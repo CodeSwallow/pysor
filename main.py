@@ -2,7 +2,8 @@ import ssl
 
 from ssl import SSLContext
 
-from sensor_simulation import MqttClient, SensorManager
+from sensor_simulation import SensorManager
+from sensor_simulation.clients import MqttClient
 from sensor_simulation.sensors import (
     TemperatureSensor,
     HumiditySensor,

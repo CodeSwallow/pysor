@@ -1,4 +1,3 @@
-import time
 import asyncio
 import logging
 
@@ -6,7 +5,7 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Any
 
-from sensor_simulation.mqtt_client import MqttClient
+from sensor_simulation.clients import MqttClient
 
 
 class ISensor(ABC):
