@@ -165,4 +165,5 @@ cython_debug/
 scripts/
 aws_config.toml
 certs/
-start_script.py
+aws_script.py
+azure_script.py
