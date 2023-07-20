@@ -16,6 +16,7 @@ class MqttClient:
                  keepalive: int = 60,
                  bind_address: str = "",
                  bind_port: int = 0,
+                 client_id: str = "",
                  ) -> None:
         """
         Constructor of the class
@@ -26,7 +27,7 @@ class MqttClient:
         :param bind_address: Bind address
         :param bind_port: Bind port
         """
-        self.client = mqtt.Client()
+        self.client = mqtt.Client(client_id=client_id)
         self.broker_address = broker_address
         self.port = port
         self.keepalive = keepalive
