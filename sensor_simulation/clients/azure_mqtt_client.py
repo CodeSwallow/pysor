@@ -14,8 +14,8 @@ class AzureMqttClient(MqttClient):
                  device_id: str,
                  shared_access_key: str = None,
                  path_to_root_cert: str = "",
-                 cert_path: str = "",
-                 key_path: str = "",
+                 cert_path: str = None,
+                 key_path: str = None,
                  expiry: int = 3600
                  ) -> None:
         """
@@ -30,11 +30,9 @@ class AzureMqttClient(MqttClient):
         self.device_id = device_id
         self.shared_access_key = shared_access_key
         self.path_to_root_cert = path_to_root_cert
+        self.cert_path = cert_path
+        self.key_path = key_path
         self.expiry = expiry
-        self.client.username_pw_set(username=self._build_username(), password=self._build_password())
-        self.client.tls_set(ca_certs=path_to_root_cert, certfile=cert_path, keyfile=key_path,
-                            cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
-        self.client.tls_insecure_set(False)
 
     def _build_username(self) -> str:
         """
@@ -42,7 +40,7 @@ class AzureMqttClient(MqttClient):
 
         :return: Username string
         """
-        return f"{self.broker_address}/{self.device_id}/api-version=2018-06-30"
+        return f"{self.broker_address}/{self.device_id}/?api-version=2021-04-12"
 
     def _build_password(self) -> str:
         """
@@ -56,14 +54,22 @@ class AzureMqttClient(MqttClient):
         """
         Set the username and password for the Azure MQTT client.
 
-        :param username: Username string
-        :param password: Password string
         :return: None
         """
         self.client.username_pw_set(
             username=self._build_username(),
             password=self._build_password()
         )
+
+    def tls_set(self) -> None:
+        """
+        Set the TLS context for the Azure MQTT client.
+
+        :return:
+        """
+        self.client.tls_set(ca_certs=self.path_to_root_cert, certfile=None, keyfile=None,
+                            cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLSv1_2, ciphers=None)
+        self.client.tls_insecure_set(False)
 
     def connect(self, keepalive: int = 60) -> None:
         """
@@ -72,4 +78,7 @@ class AzureMqttClient(MqttClient):
         :param keepalive: Maximum period in seconds allowed between communications with the broker.
         :return: None
         """
-        super().connect()
+        self.client.connect(self.broker_address, self.port, keepalive)
+
+
+# TODO: Allow for either password or cert/key files to be used
